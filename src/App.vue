@@ -1,28 +1,43 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div class="container mt-5">
+        <progressBar :quotesCount="quotes.length" :maxQuotes="maxQuotes"></progressBar>
+        <insertQuote @onQuoteAdded="newQuote"></insertQuote>
+        <quotes :quotes="quotes" @onQuoteDelete="deleteQuote"></quotes>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    import ProgressBar from "./components/ProgressBar";
+    import InserQuote from "./components/InserQuote";
+    import Quotes from "./components/Quotes";
+    export default {
+        data() {
+            return {
+                quotes: ['initial'],
+                maxQuotes: 5
+            }
+        },
+        methods: {
+            //llega automaticamente
+            newQuote(quote) {
+                if(this.quotes.length >= this.maxQuotes) {
+                    return alert('Max reached, delete a quote');
+                } else {
+                    this.quotes.push(quote);
+                }
+            },
+            deleteQuote(index) {
+                this.quotes.splice(index, 1);
+            }
+        },
+        components: {
+            progressBar: ProgressBar,
+            insertQuote: InserQuote,
+            quotes: Quotes
+        },
+    }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
